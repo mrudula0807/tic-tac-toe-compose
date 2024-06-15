@@ -168,20 +168,93 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun autoPlay(board: Array<Array<String?>>, onPlayed: () -> Unit) {
-        //Collect the remaining grids that haven't been marked/empty/null
-        val emptyCells = mutableListOf<Pair<Int, Int>>()
-        for (i in 0..2) {
-            for (j in 0..2) {
-                if (board[i][j] == null) {
-                    emptyCells.add(Pair(i, j))
-                }
-            }
-        }
-        //set a random cell from remaining grids as player 2's move
-        if (emptyCells.isNotEmpty()) {
-            val (i, j) = emptyCells.random()
+        //use an optimized algorithm for finding the best position for the next move of player 2
+        val bestPos = getBestPosition(board)
+        bestPos?.let { (i, j) ->
             board[i][j] = "O"
             onPlayed()
         }
+    }
+
+    fun getBestPosition(board: Array<Array<String?>>): Pair<Int, Int>? {
+        var bestValue = Int.MIN_VALUE
+        var bestPosition: Pair<Int, Int>? = null
+
+        for (i in 0..2) {
+            for (j in 0..2) {
+                if (board[i][j] == null) {
+                    board[i][j] = "O"
+                    val currentValue = minimax(board, 0, false)
+                    board[i][j] = null
+                    if (currentValue > bestValue) {
+                        bestPosition = Pair(i, j)
+                        bestValue = currentValue
+                    }
+                }
+            }
+        }
+        return bestPosition
+    }
+
+    fun minimax(board: Array<Array<String?>>, depth: Int, isMax: Boolean): Int {
+        val score = evaluatePatterns(board)
+        if (score == 10) return score - depth
+        if (score == -10) return score + depth
+        if (isBoardFull(board)) return 0
+        if (isMax) {
+            var best = Int.MIN_VALUE
+            for (i in 0..2) {
+                for (j in 0..2) {
+                    if (board[i][j] == null) {
+                        board[i][j] = "O"
+                        best = maxOf(best, minimax(board, depth + 1, false))
+                        board[i][j] = null
+                    }
+                }
+            }
+            return best
+        } else {
+            var best = Int.MAX_VALUE
+            for (i in 0..2) {
+                for (j in 0..2) {
+                    if (board[i][j] == null) {
+                        board[i][j] = "X"
+                        best = minOf(best, minimax(board, depth + 1, true))
+                        board[i][j] = null
+                    }
+                }
+            }
+            return best
+        }
+    }
+
+    fun evaluatePatterns(board: Array<Array<String?>>): Int {
+        for (i in 0..2) {
+            if (board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
+                if (board[i][0] == "O")
+                    return 10
+                if (board[i][0] == "X")
+                    return -10
+            }
+        }
+        for (i in 0..2) {
+            if (board[0][i] == board[1][i] && board[1][i] == board[i][2]) {
+                if (board[0][i] == "O")
+                    return 10
+                if (board[0][i] == "X")
+                    return -10
+            }
+        }
+        if (board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+            if (board[0][0] == "O")
+                return 10
+            if (board[0][0] == "X")
+                return -10
+        }
+        if (board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+            if (board[0][2] == "O") return 10
+            if (board[0][2] == "X") return -10
+        }
+        return 0
     }
 }
