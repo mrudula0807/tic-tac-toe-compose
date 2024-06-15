@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
+    <string name="game_status_draw">It\'s a draw!</string>
 </resources>
