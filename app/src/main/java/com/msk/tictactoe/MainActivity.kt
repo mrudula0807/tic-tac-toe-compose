@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,10 +49,11 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun TicTacToeGame() {
-        val board by remember { mutableStateOf(Array(3) { arrayOfNulls<String>(3) }) }
+        var board by remember { mutableStateOf(Array(3) { arrayOfNulls<String>(3) }) }
         var currentPlayer by remember { mutableStateOf("X") }
         var isGameActive by remember { mutableStateOf(true) }
         var status by remember { mutableStateOf("Player X's turn") }
+        var showResetButton by remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
@@ -79,9 +81,11 @@ class MainActivity : ComponentActivity() {
                                         if (isWin(board, currentPlayer)) {
                                             status = "Player $currentPlayer wins!"
                                             isGameActive = false
+                                            showResetButton = true
                                         } else if (isBoardFull(board)) {
                                             status = getString(R.string.game_status_draw)
                                             isGameActive = false
+                                            showResetButton = true
                                         } else {
                                             currentPlayer = if (currentPlayer == "X") "O" else "X"
                                             status = "Player $currentPlayer's turn"
@@ -98,6 +102,18 @@ class MainActivity : ComponentActivity() {
                 }
                 //space between grid rows
                 if (i < 2) Spacer(modifier = Modifier.height(8.dp))
+            }
+            Spacer(modifier = Modifier.height(36.dp))
+            if (showResetButton) {
+                Button(onClick = {
+                    board = Array(3) { arrayOfNulls<String>(3) }
+                    currentPlayer = "X"
+                    isGameActive = true
+                    status = "Player X's turn"
+                    showResetButton = false
+                }) {
+                    Text(text = "Reset")
+                }
             }
         }
     }
