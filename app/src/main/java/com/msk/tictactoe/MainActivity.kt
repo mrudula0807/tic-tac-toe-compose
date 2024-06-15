@@ -1,6 +1,8 @@
 package com.msk.tictactoe
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -52,7 +54,7 @@ class MainActivity : ComponentActivity() {
         var board by remember { mutableStateOf(Array(3) { arrayOfNulls<String>(3) }) }
         var currentPlayer by remember { mutableStateOf("X") }
         var isGameActive by remember { mutableStateOf(true) }
-        var status by remember { mutableStateOf("Player X's turn") }
+        var status by remember { mutableStateOf("You start") }
         var showResetButton by remember { mutableStateOf(false) }
 
         Column(
@@ -79,7 +81,7 @@ class MainActivity : ComponentActivity() {
                                     if (board[i][j] == null) {
                                         board[i][j] = currentPlayer
                                         if (isWin(board, currentPlayer)) {
-                                            status = "Player $currentPlayer wins!"
+                                            status = getString(R.string.game_status_won)
                                             isGameActive = false
                                             showResetButton = true
                                         } else if (isBoardFull(board)) {
@@ -87,8 +89,30 @@ class MainActivity : ComponentActivity() {
                                             isGameActive = false
                                             showResetButton = true
                                         } else {
-                                            currentPlayer = if (currentPlayer == "X") "O" else "X"
-                                            status = "Player $currentPlayer's turn"
+                                            //box disabled to prevent multiple movements by player one
+                                            isGameActive = false
+                                            currentPlayer = "O"
+                                            status = ""
+                                            Handler(Looper.getMainLooper()).postDelayed({
+                                                autoPlay(board) {
+                                                    if (isWin(board, currentPlayer)) {
+                                                        status =
+                                                            getString(R.string.game_status_lost)
+                                                        isGameActive = false
+                                                        showResetButton = true
+                                                    } else if (isBoardFull(board)) {
+                                                        status =
+                                                            getString(R.string.game_status_draw)
+                                                        isGameActive = false
+                                                        showResetButton = true
+                                                    } else {
+                                                        currentPlayer = "X"
+                                                        status = "Your turn"
+                                                        //enable grids and allow player one to make next move
+                                                        isGameActive = true
+                                                    }
+                                                }
+                                            }, 500) // Simulate some delay for the computer move
                                         }
                                     }
                                 },
@@ -106,10 +130,10 @@ class MainActivity : ComponentActivity() {
             Spacer(modifier = Modifier.height(36.dp))
             if (showResetButton) {
                 Button(onClick = {
-                    board = Array(3) { arrayOfNulls<String>(3) }
+                    board = Array(3) { arrayOfNulls(3) }
                     currentPlayer = "X"
                     isGameActive = true
-                    status = "Player X's turn"
+                    status = "Your turn"
                     showResetButton = false
                 }) {
                     Text(text = "Reset")
@@ -141,5 +165,23 @@ class MainActivity : ComponentActivity() {
             }
         }
         return true
+    }
+
+    private fun autoPlay(board: Array<Array<String?>>, onPlayed: () -> Unit) {
+        //Collect the remaining grids that haven't been marked/empty/null
+        val emptyCells = mutableListOf<Pair<Int, Int>>()
+        for (i in 0..2) {
+            for (j in 0..2) {
+                if (board[i][j] == null) {
+                    emptyCells.add(Pair(i, j))
+                }
+            }
+        }
+        //set a random cell from remaining grids as player 2's move
+        if (emptyCells.isNotEmpty()) {
+            val (i, j) = emptyCells.random()
+            board[i][j] = "O"
+            onPlayed()
+        }
     }
 }
