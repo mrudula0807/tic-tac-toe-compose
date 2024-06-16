@@ -46,7 +46,7 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
                         //columns
                         for (j in 0..2) {
                             //represents each grid that can be clicked to play
-                            TicTacToeBox(board[i][j], isGameActive) {
+                            TicTacToeBox(board[i][j], i, j, isGameActive) {
                                 viewModel.playMove(i, j) {
                                     Handler(Looper.getMainLooper()).postDelayed({
                                         viewModel.autoPlay {
@@ -69,7 +69,7 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
             winningLine?.let { WinningLine(it, currentPlayer) }
         }
         Spacer(modifier = Modifier.height(24.dp))
-        Box(modifier = Modifier.height(56.dp)){
+        Box(modifier = Modifier.height(56.dp)) {
             ResetButton(viewModel, showResetButton)
         }
     }

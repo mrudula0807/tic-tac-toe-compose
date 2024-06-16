@@ -17,11 +17,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TicTacToeBox(boardContent: String?, isGameActive: Boolean, onPlayed: () -> Unit) {
+fun TicTacToeBox(boardContent: String?,row:Int, col:Int, isGameActive: Boolean, onPlayed: () -> Unit) {
     val scale = remember { Animatable(1f) }
     LaunchedEffect(boardContent) {
         if (boardContent != null) {
@@ -44,7 +46,8 @@ fun TicTacToeBox(boardContent: String?, isGameActive: Boolean, onPlayed: () -> U
             )
             .padding(16.dp)
             .clickable(enabled = isGameActive, onClick = onPlayed)
-            .graphicsLayer(scaleX = scale.value, scaleY = scale.value),
+            .graphicsLayer(scaleX = scale.value, scaleY = scale.value)
+            .semantics { contentDescription= "Cell $row,$col: ${boardContent ?: "Empty"}" },
         contentAlignment = Alignment.Center
     )
     {
