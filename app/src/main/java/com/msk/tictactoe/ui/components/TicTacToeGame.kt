@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,7 +46,12 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = status, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text(
+            text = status,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Box(modifier = Modifier.size(316.dp)) {
             Column(
@@ -60,7 +66,10 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
                             Box(
                                 modifier = Modifier
                                     .size(100.dp)
-                                    .background(Color.Gray, shape = RoundedCornerShape(8.dp))
+                                    .background(
+                                        MaterialTheme.colorScheme.secondary,
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
                                     .padding(16.dp)
                                     .clickable(enabled = isGameActive) {
                                         viewModel.playMove(i, j) {
@@ -80,7 +89,11 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(text = board[i][j] ?: "", fontSize = 36.sp)
+                                Text(
+                                    text = board[i][j] ?: "",
+                                    fontSize = 36.sp,
+                                    color = MaterialTheme.colorScheme.onSecondary
+                                )
                             }
                         }
                     }
@@ -114,7 +127,7 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
         Spacer(modifier = Modifier.height(36.dp))
         if (showResetButton) {
             Button(onClick = { viewModel.resetGame() }) {
-                Text(text = "Reset")
+                Text(text = "Reset", color = MaterialTheme.colorScheme.onPrimary)
             }
         }
     }
