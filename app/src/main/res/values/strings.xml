@@ -3,4 +3,5 @@
     <string name="game_status_draw">It\'s a draw!</string>
     <string name="game_status_won">Bingo!! You\'ve won.</string>
     <string name="game_status_lost">Oops, you\'ve lost!</string>
+    <string name="reset">Reset</string>
 </resources>

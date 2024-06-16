@@ -12,7 +12,7 @@ class TicTacToeViewModel : ViewModel() {
     var winningLine = mutableStateOf<List<Pair<Int, Int>>?>(null)
 
     fun resetGame() {
-        board.value = Array(3) { arrayOfNulls<String>(3) }
+        board.value = Array(3) { arrayOfNulls(3) }
         currentPlayer.value = "X"
         isGameActive.value = true
         status.value = "Make your first move"
@@ -103,7 +103,7 @@ class TicTacToeViewModel : ViewModel() {
         return Pair(false, null)
     }
 
-    fun minimax(board: Array<Array<String?>>, depth: Int, isMax: Boolean): Int {
+    private fun minimax(board: Array<Array<String?>>, depth: Int, isMax: Boolean): Int {
         val score = evaluatePatterns(board)
         if (score == 10) return score - depth
         if (score == -10) return score + depth
@@ -135,7 +135,7 @@ class TicTacToeViewModel : ViewModel() {
         }
     }
 
-    fun getBestPosition(board: Array<Array<String?>>): Pair<Int, Int>? {
+    private fun getBestPosition(board: Array<Array<String?>>): Pair<Int, Int>? {
         var bestValue = Int.MIN_VALUE
         var bestPosition: Pair<Int, Int>? = null
 
@@ -155,7 +155,7 @@ class TicTacToeViewModel : ViewModel() {
         return bestPosition
     }
 
-    fun evaluatePatterns(board: Array<Array<String?>>): Int {
+    private fun evaluatePatterns(board: Array<Array<String?>>): Int {
         for (i in 0..2) {
             if (board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
                 if (board[i][0] == "O")
