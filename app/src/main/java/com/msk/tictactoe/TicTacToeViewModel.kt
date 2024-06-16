@@ -7,7 +7,7 @@ class TicTacToeViewModel : ViewModel() {
     var board = mutableStateOf(Array(3) { arrayOfNulls<String>(3) })
     var currentPlayer = mutableStateOf("X")
     var isGameActive = mutableStateOf(true)
-    var status = mutableStateOf("You start")
+    var status = mutableStateOf("Make your first move")
     var showResetButton = mutableStateOf(false)
     var winningLine = mutableStateOf<List<Pair<Int, Int>>?>(null)
 
@@ -15,7 +15,7 @@ class TicTacToeViewModel : ViewModel() {
         board.value = Array(3) { arrayOfNulls<String>(3) }
         currentPlayer.value = "X"
         isGameActive.value = true
-        status.value = "Your turn"
+        status.value = "Make your first move"
         showResetButton.value = false
         winningLine.value = null
     }

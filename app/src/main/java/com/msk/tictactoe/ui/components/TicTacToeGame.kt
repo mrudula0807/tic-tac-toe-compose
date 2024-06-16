@@ -68,9 +68,9 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
             }
             winningLine?.let { WinningLine(it, currentPlayer) }
         }
-        Spacer(modifier = Modifier.height(36.dp))
-        if (showResetButton) {
-            ResetButton(viewModel)
+        Spacer(modifier = Modifier.height(24.dp))
+        Box(modifier = Modifier.height(56.dp)){
+            ResetButton(viewModel, showResetButton)
         }
     }
 }
