@@ -56,7 +56,7 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
                                             } else if (viewModel.isBoardFull(board)) {
                                                 viewModel.gameDraw()
                                             } else {
-                                                viewModel.gameWon()
+                                                viewModel.gameContinue()
                                             }
                                         }
                                     }, 500) // Simulate some delay for the computer move

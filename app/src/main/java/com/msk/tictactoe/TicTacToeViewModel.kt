@@ -3,7 +3,7 @@ package com.msk.tictactoe
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
-class TicTacToeViewModel : ViewModel() {
+class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
     var board = mutableStateOf(Array(3) { arrayOfNulls<String>(3) })
     var currentPlayer = mutableStateOf("X")
     var isGameActive = mutableStateOf(true)
@@ -11,7 +11,33 @@ class TicTacToeViewModel : ViewModel() {
     var showResetButton = mutableStateOf(false)
     var winningLine = mutableStateOf<List<Pair<Int, Int>>?>(null)
 
+    private fun playMoveSound() {
+        soundManager.playMoveSound()
+    }
+
+    private fun playWinSound() {
+        soundManager.playWinSound()
+    }
+
+    private fun playLostSound() {
+        soundManager.playLostSound()
+    }
+
+    private fun playDrawSound() {
+        soundManager.playDrawSound()
+    }
+
+    private fun playResetSound() {
+        soundManager.playResetSound()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        soundManager.release()
+    }
+
     fun resetGame() {
+        playResetSound()
         board.value = Array(3) { arrayOfNulls(3) }
         currentPlayer.value = "X"
         isGameActive.value = true
@@ -21,6 +47,7 @@ class TicTacToeViewModel : ViewModel() {
     }
 
     fun gameLost(winLine: List<Pair<Int, Int>>?) {
+        playLostSound()
         status.value = "Oops, you've lost"
         isGameActive.value = false
         showResetButton.value = true
@@ -28,12 +55,13 @@ class TicTacToeViewModel : ViewModel() {
     }
 
     fun gameDraw() {
+        playDrawSound()
         status.value = "It's a draw"
         isGameActive.value = false
         showResetButton.value = true
     }
 
-    fun gameWon() {
+    fun gameContinue() {
         currentPlayer.value = "X"
         status.value = "Your turn"
         //enable grids and allow player one to make next move
@@ -43,13 +71,16 @@ class TicTacToeViewModel : ViewModel() {
     fun playMove(i: Int, j: Int, onAutoPlay: () -> Unit) {
         if (board.value[i][j] == null && isGameActive.value) {
             board.value[i][j] = currentPlayer.value
+            playMoveSound()
             val result = isWin(board.value, currentPlayer.value)
             if (result.first) {
+                playWinSound()
                 winningLine.value = result.second
                 status.value = "You've won!!!"
                 isGameActive.value = false
                 showResetButton.value = true
             } else if (isBoardFull(board.value)) {
+                playDrawSound()
                 status.value = "It's a draw"
                 isGameActive.value = false
                 showResetButton.value = true
