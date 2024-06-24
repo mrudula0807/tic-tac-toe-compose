@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 
 class TicTacToeViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val soundManager = SoundManager(context.applicationContext)
+        val soundManager = SoundManagerImpl(context.applicationContext)
         return TicTacToeViewModel(soundManager) as T
     }
 }

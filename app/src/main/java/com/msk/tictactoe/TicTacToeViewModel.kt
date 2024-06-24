@@ -33,7 +33,9 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        soundManager.release()
+        if (soundManager is SoundManagerImpl) {
+            soundManager.release()
+        }
     }
 
     fun resetGame() {
@@ -94,12 +96,25 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
         }
     }
 
-    fun autoPlay(onPlayed: () -> Unit) {
+    /*
+    Player 2 move*/
+    fun autoPlay() {
         //use an optimized algorithm for finding the best position for the next move of player 2
         val bestPos = getBestPosition(board.value)
         bestPos?.let { (i, j) ->
             board.value[i][j] = "O"
-            onPlayed()
+            onAutoPlayed()
+        }
+    }
+
+    /*
+    Callback after player 2 makes the move*/
+    private fun onAutoPlayed() {
+        val autoResult = isWin(board.value, "O")
+        if (autoResult.first) {
+            gameLost(autoResult.second)
+        } else {
+            gameContinue()
         }
     }
 

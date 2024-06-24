@@ -49,16 +49,7 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
                             TicTacToeBox(board[i][j], i, j, isGameActive) {
                                 viewModel.playMove(i, j) {
                                     Handler(Looper.getMainLooper()).postDelayed({
-                                        viewModel.autoPlay {
-                                            val autoResult = viewModel.isWin(board, "O")
-                                            if (autoResult.first) {
-                                                viewModel.gameLost(autoResult.second)
-                                            } else if (viewModel.isBoardFull(board)) {
-                                                viewModel.gameDraw()
-                                            } else {
-                                                viewModel.gameContinue()
-                                            }
-                                        }
+                                        viewModel.autoPlay()
                                     }, 500) // Simulate some delay for the computer move
                                 }
                             }

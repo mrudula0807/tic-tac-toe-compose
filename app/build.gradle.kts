@@ -59,12 +59,19 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.core.ktx)
+    //junit for unit tests
+    testImplementation(libs.junit)
+    //mockito for mocking
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.kotlin)
+    //androidx test - core
+    testImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.androidx.core)
+    //androidx test junit
+    androidTestImplementation(libs.androidx.junit)
+    //Espresso for UI tests
+    androidTestImplementation(libs.androidx.espresso.core)
 }
