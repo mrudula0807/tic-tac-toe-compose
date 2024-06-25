@@ -17,8 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.msk.tictactoe.TicTacToeViewModel
+import com.msk.tictactoe.utils.Dimens
 
 @Composable
 fun TicTacToeGame(viewModel: TicTacToeViewModel) {
@@ -32,20 +32,20 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(Dimens.paddingMedium)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         StatusText(status)
-        Spacer(modifier = Modifier.height(16.dp))
-        Box(modifier = Modifier.size(316.dp)) {
+        Spacer(modifier = Modifier.height(Dimens.paddingMedium))
+        Box(modifier = Modifier.size(Dimens.gridSize)) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(Dimens.paddingSmall)
             ) {
                 //rows
                 for (i in 0..2) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(Dimens.paddingSmall)) {
                         //columns
                         for (j in 0..2) {
                             //represents each grid that can be clicked to play
@@ -62,8 +62,8 @@ fun TicTacToeGame(viewModel: TicTacToeViewModel) {
             }
             winningLine?.let { WinningLine(it, currentPlayer) }
         }
-        Spacer(modifier = Modifier.height(24.dp))
-        Box(modifier = Modifier.height(56.dp)) {
+        Spacer(modifier = Modifier.height(Dimens.paddingLarge))
+        Box(modifier = Modifier.height(Dimens.paddingVeryLarge)) {
             ResetButton(viewModel, showResetButton)
         }
     }

@@ -12,9 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.unit.dp
 import com.msk.tictactoe.ui.theme.emerald
 import com.msk.tictactoe.ui.theme.satin
+import com.msk.tictactoe.utils.Dimens
 
 @Composable
 fun WinningLine(line: List<Pair<Int, Int>>, currentPlayer: String) {
@@ -28,8 +28,8 @@ fun WinningLine(line: List<Pair<Int, Int>>, currentPlayer: String) {
         ), label = ""
     )
     Canvas(modifier = Modifier.fillMaxSize()) {
-        val cellSize = 100.dp.toPx()
-        val spacing = 8.dp.toPx()
+        val cellSize = Dimens.boxSize.toPx()
+        val spacing = Dimens.paddingSmall.toPx()
         val halfCellSize = cellSize / 2
 
         val startCell = line.first()

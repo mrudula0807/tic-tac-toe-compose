@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import com.msk.tictactoe.utils.Dimens
 
 @Composable
 fun StatusText(status: String) {
@@ -18,7 +18,7 @@ fun StatusText(status: String) {
     )
     Text(
         text = status,
-        fontSize = 24.sp,
+        fontSize = Dimens.textSizeLarge,
         fontWeight = FontWeight.Bold,
         color = animatedColor.value,
         modifier = Modifier.semantics { contentDescription = status }

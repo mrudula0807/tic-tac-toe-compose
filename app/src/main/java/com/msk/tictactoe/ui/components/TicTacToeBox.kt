@@ -19,11 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.msk.tictactoe.utils.Dimens
 
 @Composable
-fun TicTacToeBox(boardContent: String?,row:Int, col:Int, isGameActive: Boolean, onPlayed: () -> Unit) {
+fun TicTacToeBox(
+    boardContent: String?,
+    row: Int,
+    col: Int,
+    isGameActive: Boolean,
+    onPlayed: () -> Unit
+) {
     val scale = remember { Animatable(1f) }
     LaunchedEffect(boardContent) {
         if (boardContent != null) {
@@ -39,21 +44,21 @@ fun TicTacToeBox(boardContent: String?,row:Int, col:Int, isGameActive: Boolean, 
     }
     Box(
         modifier = Modifier
-            .size(100.dp)
+            .size(Dimens.boxSize)
             .background(
                 MaterialTheme.colorScheme.secondary,
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(Dimens.paddingSmall)
             )
-            .padding(16.dp)
+            .padding(Dimens.paddingMedium)
             .clickable(enabled = isGameActive, onClick = onPlayed)
             .graphicsLayer(scaleX = scale.value, scaleY = scale.value)
-            .semantics { contentDescription= "Cell $row,$col: ${boardContent ?: "Empty"}" },
+            .semantics { contentDescription = "Cell $row,$col: ${boardContent ?: "Empty"}" },
         contentAlignment = Alignment.Center
     )
     {
         Text(
             text = boardContent ?: "",
-            fontSize = 36.sp,
+            fontSize = Dimens.textSizeVeryLarge,
             color = MaterialTheme.colorScheme.onSecondary
         )
     }
