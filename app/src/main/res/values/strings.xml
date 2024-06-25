@@ -4,4 +4,7 @@
     <string name="game_status_won">Bingo!! You\'ve won.</string>
     <string name="game_status_lost">Oops, you\'ve lost!</string>
     <string name="reset">Reset</string>
+    <string name="content_desc_reset_game">Reset game</string>
+    <string name="status_text_first_move">Make your first move</string>
+    <string name="status_text_your_turn">Your turn</string>
 </resources>

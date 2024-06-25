@@ -2,12 +2,13 @@ package com.msk.tictactoe
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.msk.tictactoe.utils.ResourceProvider.getString
 
 class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
     var board = mutableStateOf(Array(3) { arrayOfNulls<String>(3) })
     var currentPlayer = mutableStateOf("X")
     var isGameActive = mutableStateOf(true)
-    var status = mutableStateOf("Make your first move")
+    var status = mutableStateOf(getString(R.string.status_text_first_move))
     var showResetButton = mutableStateOf(false)
     var winningLine = mutableStateOf<List<Pair<Int, Int>>?>(null)
 
@@ -43,14 +44,14 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
         board.value = Array(3) { arrayOfNulls(3) }
         currentPlayer.value = "X"
         isGameActive.value = true
-        status.value = "Make your first move"
+        status.value = getString(R.string.status_text_first_move)
         showResetButton.value = false
         winningLine.value = null
     }
 
     fun gameLost(winLine: List<Pair<Int, Int>>?) {
         playLostSound()
-        status.value = "Oops, you've lost"
+        status.value = getString(R.string.game_status_lost)
         isGameActive.value = false
         showResetButton.value = true
         winningLine.value = winLine
@@ -58,14 +59,14 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
 
     fun gameDraw() {
         playDrawSound()
-        status.value = "It's a draw"
+        status.value = getString(R.string.game_status_draw)
         isGameActive.value = false
         showResetButton.value = true
     }
 
     fun gameContinue() {
         currentPlayer.value = "X"
-        status.value = "Your turn"
+        status.value = getString(R.string.status_text_your_turn)
         //enable grids and allow player one to make next move
         isGameActive.value = true
     }
@@ -78,12 +79,12 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
             if (result.first) {
                 playWinSound()
                 winningLine.value = result.second
-                status.value = "You've won!!!"
+                status.value = getString(R.string.game_status_won)
                 isGameActive.value = false
                 showResetButton.value = true
             } else if (isBoardFull(board.value)) {
                 playDrawSound()
-                status.value = "It's a draw"
+                status.value = getString(R.string.game_status_draw)
                 isGameActive.value = false
                 showResetButton.value = true
             } else {
