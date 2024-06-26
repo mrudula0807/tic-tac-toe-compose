@@ -1,7 +1,8 @@
-package com.msk.tictactoe
+package com.msk.tictactoe.utils
 
 import android.content.Context
 import android.media.SoundPool
+import com.msk.tictactoe.R
 
 interface SoundManager {
     fun playMoveSound()

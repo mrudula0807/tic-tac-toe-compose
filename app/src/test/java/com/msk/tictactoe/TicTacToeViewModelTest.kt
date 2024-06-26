@@ -2,6 +2,9 @@ package com.msk.tictactoe
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.ViewModel
+import com.msk.tictactoe.utils.SoundManager
+import com.msk.tictactoe.utils.SoundManagerImpl
+import com.msk.tictactoe.viewmodel.TicTacToeViewModel
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule

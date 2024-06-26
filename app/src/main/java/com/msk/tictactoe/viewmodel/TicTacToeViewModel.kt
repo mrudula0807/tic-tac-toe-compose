@@ -1,7 +1,10 @@
-package com.msk.tictactoe
+package com.msk.tictactoe.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.msk.tictactoe.R
+import com.msk.tictactoe.utils.SoundManager
+import com.msk.tictactoe.utils.SoundManagerImpl
 import com.msk.tictactoe.utils.ResourceProvider.getString
 
 class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {

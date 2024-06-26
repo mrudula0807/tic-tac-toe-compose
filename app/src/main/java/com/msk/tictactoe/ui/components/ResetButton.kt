@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import com.msk.tictactoe.R
-import com.msk.tictactoe.TicTacToeViewModel
+import com.msk.tictactoe.viewmodel.TicTacToeViewModel
 
 @Composable
 fun ResetButton(viewModel: TicTacToeViewModel, showResetButton: Boolean) {

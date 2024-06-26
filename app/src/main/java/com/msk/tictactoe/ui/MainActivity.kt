@@ -1,4 +1,4 @@
-package com.msk.tictactoe
+package com.msk.tictactoe.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,6 +11,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.msk.tictactoe.ui.components.TicTacToeGame
 import com.msk.tictactoe.ui.theme.TicTacToeTheme
+import com.msk.tictactoe.viewmodel.TicTacToeViewModel
+import com.msk.tictactoe.viewmodel.TicTacToeViewModelFactory
 
 class MainActivity : ComponentActivity() {
     private val viewModel: TicTacToeViewModel by viewModels { TicTacToeViewModelFactory(this) }
