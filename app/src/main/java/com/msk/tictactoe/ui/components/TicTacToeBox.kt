@@ -24,9 +24,8 @@ import com.msk.tictactoe.utils.Dimens
 @Composable
 fun TicTacToeBox(
     boardContent: String?,
-    row: Int,
-    col: Int,
     isGameActive: Boolean,
+    contentDesc: String,
     onPlayed: () -> Unit
 ) {
     val scale = remember { Animatable(1f) }
@@ -52,7 +51,7 @@ fun TicTacToeBox(
             .padding(Dimens.paddingMedium)
             .clickable(enabled = isGameActive, onClick = onPlayed)
             .graphicsLayer(scaleX = scale.value, scaleY = scale.value)
-            .semantics { contentDescription = "Cell $row,$col: ${boardContent ?: "Empty"}" },
+            .semantics { contentDescription = contentDesc },
         contentAlignment = Alignment.Center
     )
     {

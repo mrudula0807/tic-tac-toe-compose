@@ -7,4 +7,10 @@
     <string name="content_desc_reset_game">Reset game</string>
     <string name="status_text_first_move">Make your first move</string>
     <string name="status_text_your_turn">Your turn</string>
+    <string name="game_draw_accessibility_announce__text">It\'s a draw. Reset the game to play again</string>
+    <string name="game_lost_accessibility_announce__text">Oops, you\'ve lost. Reset the game to play again</string>
+    <string name="game_won_accessibility_announce__text">Bingo. You\'ve won. Reset the game to play again</string>
+    <string name="autoplay_accessibility_announce_text">Player two marked position row %1$s column %2$s. Your turn</string>
+    <string name="empty_cell">empty cell</string>
+    <string name="content_desc_cell">Row %1$s Column %2$s %3$s</string>
 </resources>

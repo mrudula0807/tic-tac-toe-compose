@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.msk.tictactoe.utils.Dimens
+import com.msk.tictactoe.utils.GameAccessibilityAnnouncer
 import com.msk.tictactoe.viewmodel.TicTacToeViewModel
 
 @Composable
@@ -28,6 +29,8 @@ fun GameScreenLandscape(
     showResetButton: Boolean,
     winningLine: List<Pair<Int, Int>>?
 ) {
+    //integrate the accessibility announcer
+    GameAccessibilityAnnouncer(viewModel = viewModel)
     Column(
         modifier = Modifier
             .fillMaxHeight()

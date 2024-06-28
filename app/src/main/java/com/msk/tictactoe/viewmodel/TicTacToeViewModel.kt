@@ -3,9 +3,11 @@ package com.msk.tictactoe.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.msk.tictactoe.R
+import com.msk.tictactoe.utils.ResourceProvider.getString
 import com.msk.tictactoe.utils.SoundManager
 import com.msk.tictactoe.utils.SoundManagerImpl
-import com.msk.tictactoe.utils.ResourceProvider.getString
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
     var board = mutableStateOf(Array(3) { arrayOfNulls<String>(3) })
@@ -14,6 +16,8 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
     var status = mutableStateOf(getString(R.string.status_text_first_move))
     var showResetButton = mutableStateOf(false)
     var winningLine = mutableStateOf<List<Pair<Int, Int>>?>(null)
+    private val _autoPlayResult = MutableStateFlow<String?>(null)
+    val autoPlayResult: StateFlow<String?> get() = _autoPlayResult
 
     private fun playMoveSound() {
         soundManager.playMoveSound()
@@ -55,6 +59,7 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
     fun gameLost(winLine: List<Pair<Int, Int>>?) {
         playLostSound()
         status.value = getString(R.string.game_status_lost)
+        _autoPlayResult.value = getString(R.string.game_lost_accessibility_announce__text)
         isGameActive.value = false
         showResetButton.value = true
         winningLine.value = winLine
@@ -63,6 +68,7 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
     fun gameDraw() {
         playDrawSound()
         status.value = getString(R.string.game_status_draw)
+        _autoPlayResult.value = getString(R.string.game_draw_accessibility_announce__text)
         isGameActive.value = false
         showResetButton.value = true
     }
@@ -83,11 +89,13 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
                 playWinSound()
                 winningLine.value = result.second
                 status.value = getString(R.string.game_status_won)
+                _autoPlayResult.value = getString(R.string.game_won_accessibility_announce__text)
                 isGameActive.value = false
                 showResetButton.value = true
             } else if (isBoardFull(board.value)) {
                 playDrawSound()
                 status.value = getString(R.string.game_status_draw)
+                _autoPlayResult.value = getString(R.string.game_draw_accessibility_announce__text)
                 isGameActive.value = false
                 showResetButton.value = true
             } else {
@@ -107,8 +115,17 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
         val bestPos = getBestPosition(board.value)
         bestPos?.let { (i, j) ->
             board.value[i][j] = "O"
+            _autoPlayResult.value = getString(
+                R.string.autoplay_accessibility_announce_text,
+                (i + 1).toString(),
+                (j + 1).toString()
+            )
             onAutoPlayed()
         }
+    }
+
+    fun resetAutoPlayResult() {
+        _autoPlayResult.value = null
     }
 
     /*
