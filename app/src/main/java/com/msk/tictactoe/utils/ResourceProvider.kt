@@ -2,18 +2,19 @@ package com.msk.tictactoe.utils
 
 import android.content.Context
 
-object ResourceProvider {
-    private lateinit var context: Context
+interface ResourceProvider {
+    fun getString(resId: Int): String
+    fun getString(resId: Int, arg1: String, arg2: String): String
+}
+class ResourceProviderImpl(context: Context): ResourceProvider {
 
-    fun init(context: Context) {
-        this.context = context.applicationContext
-    }
+    private val context by lazy { context }
 
-    fun getString(resId: Int): String {
+    override fun getString(resId: Int): String {
         return context.getString(resId)
     }
 
-    fun getString(resId: Int, arg1: String, arg2: String): String {
+    override fun getString(resId: Int, arg1: String, arg2: String): String {
         return context.getString(resId, arg1, arg2)
     }
 }

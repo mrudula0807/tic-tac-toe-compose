@@ -3,17 +3,20 @@ package com.msk.tictactoe.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.msk.tictactoe.R
-import com.msk.tictactoe.utils.ResourceProvider.getString
+import com.msk.tictactoe.utils.ResourceProvider
 import com.msk.tictactoe.utils.SoundManager
 import com.msk.tictactoe.utils.SoundManagerImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
+class TicTacToeViewModel(
+    private val soundManager: SoundManager,
+    private val resourcesProvider: ResourceProvider
+) : ViewModel() {
     var board = mutableStateOf(Array(3) { arrayOfNulls<String>(3) })
     var currentPlayer = mutableStateOf("X")
     var isGameActive = mutableStateOf(true)
-    var status = mutableStateOf(getString(R.string.status_text_first_move))
+    var status = mutableStateOf(resourcesProvider.getString(R.string.status_text_first_move))
     var showResetButton = mutableStateOf(false)
     var winningLine = mutableStateOf<List<Pair<Int, Int>>?>(null)
     private val _autoPlayResult = MutableStateFlow<String?>(null)
@@ -51,15 +54,16 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
         board.value = Array(3) { arrayOfNulls(3) }
         currentPlayer.value = "X"
         isGameActive.value = true
-        status.value = getString(R.string.status_text_first_move)
+        status.value = resourcesProvider.getString(R.string.status_text_first_move)
         showResetButton.value = false
         winningLine.value = null
     }
 
     fun gameLost(winLine: List<Pair<Int, Int>>?) {
         playLostSound()
-        status.value = getString(R.string.game_status_lost)
-        _autoPlayResult.value = getString(R.string.game_lost_accessibility_announce__text)
+        status.value = resourcesProvider.getString(R.string.game_status_lost)
+        _autoPlayResult.value =
+            resourcesProvider.getString(R.string.game_lost_accessibility_announce__text)
         isGameActive.value = false
         showResetButton.value = true
         winningLine.value = winLine
@@ -67,15 +71,16 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
 
     fun gameDraw() {
         playDrawSound()
-        status.value = getString(R.string.game_status_draw)
-        _autoPlayResult.value = getString(R.string.game_draw_accessibility_announce__text)
+        status.value = resourcesProvider.getString(R.string.game_status_draw)
+        _autoPlayResult.value =
+            resourcesProvider.getString(R.string.game_draw_accessibility_announce__text)
         isGameActive.value = false
         showResetButton.value = true
     }
 
     fun gameContinue() {
         currentPlayer.value = "X"
-        status.value = getString(R.string.status_text_your_turn)
+        status.value = resourcesProvider.getString(R.string.status_text_your_turn)
         //enable grids and allow player one to make next move
         isGameActive.value = true
     }
@@ -88,14 +93,16 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
             if (result.first) {
                 playWinSound()
                 winningLine.value = result.second
-                status.value = getString(R.string.game_status_won)
-                _autoPlayResult.value = getString(R.string.game_won_accessibility_announce__text)
+                status.value = resourcesProvider.getString(R.string.game_status_won)
+                _autoPlayResult.value =
+                    resourcesProvider.getString(R.string.game_won_accessibility_announce__text)
                 isGameActive.value = false
                 showResetButton.value = true
             } else if (isBoardFull(board.value)) {
                 playDrawSound()
-                status.value = getString(R.string.game_status_draw)
-                _autoPlayResult.value = getString(R.string.game_draw_accessibility_announce__text)
+                status.value = resourcesProvider.getString(R.string.game_status_draw)
+                _autoPlayResult.value =
+                    resourcesProvider.getString(R.string.game_draw_accessibility_announce__text)
                 isGameActive.value = false
                 showResetButton.value = true
             } else {
@@ -115,7 +122,7 @@ class TicTacToeViewModel(private val soundManager: SoundManager) : ViewModel() {
         val bestPos = getBestPosition(board.value)
         bestPos?.let { (i, j) ->
             board.value[i][j] = "O"
-            _autoPlayResult.value = getString(
+            _autoPlayResult.value = resourcesProvider.getString(
                 R.string.autoplay_accessibility_announce_text,
                 (i + 1).toString(),
                 (j + 1).toString()

@@ -2,6 +2,8 @@ package com.msk.tictactoe
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.ViewModel
+import com.msk.tictactoe.utils.ResourceProvider
+import com.msk.tictactoe.utils.ResourceProviderImpl
 import com.msk.tictactoe.utils.SoundManager
 import com.msk.tictactoe.utils.SoundManagerImpl
 import com.msk.tictactoe.viewmodel.TicTacToeViewModel
@@ -12,6 +14,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 
@@ -23,11 +26,20 @@ class TicTacToeViewModelTest {
 
     private lateinit var soundManager: SoundManager
     private lateinit var viewModel: TicTacToeViewModel
+    private lateinit var mockResourceProvider: ResourceProvider
 
     @Before
     fun setUp() {
         soundManager = mock<SoundManagerImpl>()
-        viewModel = TicTacToeViewModel(soundManager)
+        mockResourceProvider = mock<ResourceProviderImpl>()
+        `when`(mockResourceProvider.getString(R.string.status_text_first_move)).thenReturn("Make your first move")
+        `when`(mockResourceProvider.getString(R.string.game_status_lost)).thenReturn("Oops, you've lost")
+        `when`(mockResourceProvider.getString(R.string.game_status_draw)).thenReturn("It's a draw")
+        `when`(mockResourceProvider.getString(R.string.status_text_your_turn)).thenReturn("Your turn")
+        `when`(mockResourceProvider.getString(R.string.game_status_won)).thenReturn("You've won!!!")
+
+
+        viewModel = TicTacToeViewModel(soundManager, mockResourceProvider)
     }
 
     @Test

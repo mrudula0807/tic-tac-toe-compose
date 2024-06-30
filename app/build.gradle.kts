@@ -63,10 +63,13 @@ dependencies {
     implementation(libs.core.ktx)
     //junit for unit tests
     testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.ui.test.manifest)
     //mockito for mocking
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
     testImplementation(libs.mockito.kotlin)
+    androidTestImplementation(libs.mockito.kotlin)
     //androidx test - core
     testImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.androidx.core)
